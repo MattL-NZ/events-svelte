@@ -1,38 +1,51 @@
-# sv
+# SvelteKit Full-Stack Playground
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern full-stack playground project built with SvelteKit, exploring the latest features of Svelte 5 and cutting-edge web technologies.
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Frontend
+- **Svelte 5** - Latest version with runes ($state, $derived)
+- **SvelteKit** - Application framework with server-side rendering
+- **Tailwind CSS** - Utility-first styling
+- **shadcn-svelte** - Accessible component system
+- **Lucide Icons** - Beautiful icon system
 
-```bash
-# create a new project in the current directory
-npx sv create
+### Backend & Database
+- **Drizzle ORM** - Type-safe SQL toolkit
+- **SQLite** - File-based database
+- **SvelteKit API Routes** - Backend API implementation
 
-# create a new project in my-app
-npx sv create my-app
+### Development
+- **TypeScript** - Type safety across the stack
+- **Vite** - Build tool and dev server
+- **Vitest** - Unit testing framework
+- **Playwright** - End-to-end testing
+
+## Getting Started
+
+1. Clone the repository
 ```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+git clone <repository-url>
+```
+2. Install dependencies
+```
+npm install
+```
+3. Set up your environment variables
+```
+cp .env.example .env
+```
+4. Initialize the database
+```
+npm run db:push
+```
+5. Start the development server
+```
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Development Commands
+- To open the Drizzle studio `bun run drizzle-kit studio`
+- To run vitest tests `bun run test` or `bun run test:ui`
+- Playwright tests coming soon...

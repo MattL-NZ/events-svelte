@@ -13,7 +13,7 @@ A modern full-stack playground project built with SvelteKit, exploring the lates
 
 ### Backend & Database
 - **Drizzle ORM** - Type-safe SQL toolkit
-- **SQLite** - File-based database
+- **Neon Postgres Db** - File-based database
 - **SvelteKit API Routes** - Backend API implementation
 
 ### Development

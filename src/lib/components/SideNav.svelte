@@ -8,7 +8,7 @@
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import { enhance } from '$app/forms';
 	import type { events } from '$lib/server/db/schema';
-
+	import { Event } from '$lib/types/eventState.svelte';
 	interface SideNavProps {
 		open: boolean;
 		selectedDocument: typeof events.$inferSelect | null;
@@ -17,10 +17,11 @@
 	let { open = $bindable(false), selectedDocument }: SideNavProps = $props();
 
 	let isSubmitting = $state(false);
-	// Form schema for document information
+
 	const { form: docForm } = superForm({
 		id: selectedDocument?.id,
 		name: selectedDocument?.name,
+		description: selectedDocument?.description,
 		type: selectedDocument?.eventTypeId,
 		owner: selectedDocument?.userId,
 		created: selectedDocument?.createdAt,
@@ -63,12 +64,18 @@
 					<form class="space-y-4" method="POST" action="?/createEvent" use:enhance={handleSubmit}>
 						<div class="space-y-2">
 							<Label for="name" class="font-openSans">Document Name</Label>
-							<Input type="text" class="font-openSans" bind:value={$docForm.name} />
+							<Input type="text" name="name" class="font-openSans" bind:value={$docForm.name} />
 						</div>
 
 						<div class="space-y-2">
 							<Label for="type" class="font-openSans">Document Type</Label>
-							<Input type="text" class="font-openSans" bind:value={$docForm.type} readonly />
+							<Input
+								type="text"
+								name="type"
+								class="font-openSans"
+								bind:value={$docForm.type}
+								readonly
+							/>
 						</div>
 
 						<div class="space-y-2">

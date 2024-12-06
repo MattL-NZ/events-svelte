@@ -17,23 +17,15 @@ export const actions = {
 	createEvent: async ({ request }) => {
 		const formData = await request.formData();
 
-		const name = 'Test Name';
-		const description = 'Test Description 99';
-		const eventTypeId = 1;
-		const triggerTypeId = 1;
-		const triggerConfig = JSON.parse(formData.get('triggerConfig') as string);
-		const userId = null;
-
 		try {
 			const newEvent = await db
 				.insert(events)
 				.values({
-					name,
-					description,
-					eventTypeId,
-					triggerTypeId,
-					triggerConfig,
-					userId,
+					name: formData.get('name') as string,
+					description: formData.get('description') as string,
+					eventTypeId: 1,
+					triggerTypeId: 1,
+					triggerConfig: formData.get('triggerConfig') as string,
 					isActive: true,
 					updatedAt: new Date()
 				})

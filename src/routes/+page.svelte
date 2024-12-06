@@ -12,7 +12,7 @@
 	let eventsList = $derived(data.events);
 </script>
 
-<NavBar />
+<NavBar bind:showSideNav />
 <div class="px-10 pt-4">
 	<Table.Root class="rounded-lg border border-gray-200 bg-white">
 		<Table.Caption>A list of files on the current watchlist.</Table.Caption>

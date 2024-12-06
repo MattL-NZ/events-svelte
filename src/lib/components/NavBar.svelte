@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from './ui/button';
+	let { showSideNav = $bindable(false) } = $props();
 </script>
 
 <nav
@@ -9,7 +10,9 @@
 		<h1 class="font-bungee text-2xl font-[400] text-blue-500">Events</h1>
 	</div>
 	<div class="flex flex-row items-center gap-4">
-		<Button class="border border-blue-300 bg-white font-inter text-blue-900 hover:bg-blue-200"
+		<Button
+			onclick={() => (showSideNav = !showSideNav)}
+			class="border border-blue-300 bg-white font-inter text-blue-900 hover:bg-blue-200"
 			>Add document to watchlist</Button
 		>
 	</div>

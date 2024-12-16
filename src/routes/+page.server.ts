@@ -1,6 +1,5 @@
 import { db } from '../server/db';
 import { events } from '../server/db/schema';
-
 export async function load() {
 	const events = await db.query.events.findMany({
 		with: {

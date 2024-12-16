@@ -7,7 +7,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import { enhance } from '$app/forms';
-	import type { events } from '../../server/db/schema';
+	import { events } from '$server/db/schema';
 	interface SideNavProps {
 		open: boolean;
 		selectedDocument: typeof events.$inferSelect | null;

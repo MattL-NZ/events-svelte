@@ -2,13 +2,16 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
-	import { actions } from './+page.server';
 
 	const { data } = $props();
-	let diceRoles = $derived(data.diceRoles);
+	let diceRoles = $state(data.diceRoles);
 
-	function rollDice() {
-		actions.rollDice();
+	async function rollDice() {
+		const response = await fetch('/api/dice', {
+			method: 'POST'
+		});
+		const data = await response.json();
+		diceRoles = data.history;
 	}
 </script>
 

@@ -3,7 +3,7 @@ import { diceRolls } from '../../../server/db/schema';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import { desc } from 'drizzle-orm';
 
-export const GET: RequestHandler = async () => {
+export const POST: RequestHandler = async () => {
 	try {
 		// Generate random number
 		const roll_value = Math.floor(Math.random() * 6) + 1;

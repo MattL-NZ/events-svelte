@@ -4,7 +4,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table/index.js';
-	import type { events } from '$lib/server/db/schema';
+	import type { events } from '../server/db/schema.js';
 
 	let showSideNav = $state(false);
 	let selectedDocument = $state<typeof events.$inferSelect | null>(null);
@@ -12,7 +12,7 @@
 	let eventsList = $derived(data.events);
 </script>
 
-<NavBar bind:showSideNav />
+<NavBar bind:showSideNav showAddDocument={false} />
 <div class="px-10 pt-4">
 	<Table.Root class="rounded-lg border border-gray-200 bg-white">
 		<Table.Caption>A list of files on the current watchlist.</Table.Caption>
@@ -61,4 +61,4 @@
 	</aside>
 {/if}
 
-<a href="/new-page">New Page</a>
+<a href="/dice">Go to dice page</a>

@@ -64,6 +64,12 @@ export const eventActions = pgTable('event_actions', {
 	createdAt: timestamp('created_at').defaultNow()
 });
 
+export const diceRolls = pgTable('dice_rolls', {
+	id: serial('id').primaryKey(),
+	rollValue: integer('roll_value').notNull(),
+	createdAt: timestamp('created_at').defaultNow()
+});
+
 // Define relations for events
 export const eventRelations = relations(events, ({ one, many }) => ({
 	eventType: one(eventTypes, {

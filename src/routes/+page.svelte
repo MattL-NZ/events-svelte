@@ -1,15 +1,14 @@
 <script lang="ts">
+	import type { Event } from '../models/event';
+	import * as Table from '$lib/components/ui/table/index.js';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import SideNav from '$lib/components/SideNav.svelte';
-	import { Badge } from '$lib/components/ui/badge';
-	import { Button } from '$lib/components/ui/button';
-	import * as Table from '$lib/components/ui/table/index.js';
-	import type { events } from '../server/db/schema.js';
-
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	let showSideNav = $state(false);
-	let selectedDocument = $state<typeof events.$inferSelect | null>(null);
+	let selectedDocument = $state<Event | null>(null);
 	let { data } = $props();
-	let eventsList = $derived(data.events);
+	let events = $derived(data.events);
 </script>
 
 <NavBar bind:showSideNav showAddDocument={false} />
@@ -28,16 +27,15 @@
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#each eventsList as event}
+			{#each events as event}
 				<Table.Row>
 					<Table.Cell>{event.name}</Table.Cell>
 					<Table.Cell>{event.description}</Table.Cell>
 					<Table.Cell>
-						<Badge class="bg-green-300 text-black hover:bg-blue-300">{event.isActive}</Badge>
+						<Badge class="bg-green-300 text-black hover:bg-blue-300">{event.is_active}</Badge>
 					</Table.Cell>
-					<Table.Cell>{event.userId}</Table.Cell>
-					<Table.Cell>{event.createdAt}</Table.Cell>
-					<Table.Cell>{event.updatedAt}</Table.Cell>
+					<Table.Cell>{event.created_at}</Table.Cell>
+					<Table.Cell>{event.updated_at}</Table.Cell>
 					<Table.Cell>
 						<Button
 							onclick={() => {

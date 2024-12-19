@@ -10,24 +10,19 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"db:generate": "drizzle-kit generate",
-		"db:push": "drizzle-kit push",
-		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"coverage": "vitest run --coverage"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^4.0.1",
+		"@sveltejs/kit": "^2.9.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@types/eslint": "^9.6.0",
 		"@types/node": "^22.9.0",
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^1.0.0-next.63",
 		"clsx": "^2.1.1",
-		"drizzle-kit": "^0.22.0",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
@@ -36,7 +31,7 @@
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
-		"svelte": "^5.0.0",
+		"svelte": "^5.14.4",
 		"svelte-check": "^4.0.0",
 		"tailwind-merge": "^2.5.4",
 		"tailwind-variants": "^0.2.1",
@@ -45,17 +40,18 @@
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.0.0",
 		"vaul-svelte": "^1.0.0-next.3",
-		"vite": "5.0.3"
+		"vite": "6.0.0"
 	},
 	"dependencies": {
 		"@neondatabase/serverless": "^0.9.4",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.6",
-		"drizzle-orm": "^0.33.0",
 		"jsdom": "^25.0.1",
+		"pg": "^8.13.1",
+		"remult": "^0.27.24",
 		"sveltekit-superforms": "^2.20.1",
 		"vitest": "^2.1.8",
 		"zod": "^3.23.8"
 	},
-	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+	"packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
 }

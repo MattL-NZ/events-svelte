@@ -7,10 +7,10 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import { enhance } from '$app/forms';
-	import { events } from '$server/db/schema';
+	import type { Event } from '../../models/event';
 	interface SideNavProps {
 		open: boolean;
-		selectedDocument: typeof events.$inferSelect | null;
+		selectedDocument: Event | null;
 	}
 
 	let { open = $bindable(false), selectedDocument }: SideNavProps = $props();
@@ -21,10 +21,9 @@
 		id: selectedDocument?.id,
 		name: selectedDocument?.name,
 		description: selectedDocument?.description,
-		type: selectedDocument?.eventTypeId,
-		owner: selectedDocument?.userId,
-		created: selectedDocument?.createdAt,
-		isActive: selectedDocument?.isActive
+		type: selectedDocument?.event_type_id,
+		created: selectedDocument?.created_at,
+		isActive: selectedDocument?.is_active
 	});
 
 	function handleSubmit() {
@@ -46,9 +45,9 @@
 			<Drawer.Title class="text-xl font-bold">{selectedDocument?.name}</Drawer.Title>
 			<Badge
 				class="flex w-32 justify-center bg-blue-300 py-2 text-blue-900 hover:bg-blue-300"
-				variant={selectedDocument?.isActive ? 'default' : 'secondary'}
+				variant={selectedDocument?.is_active ? 'default' : 'secondary'}
 			>
-				{selectedDocument?.isActive ? 'Active' : 'Inactive'}
+				{selectedDocument?.is_active ? 'Active' : 'Inactive'}
 			</Badge>
 		</Drawer.Header>
 
@@ -72,14 +71,14 @@
 								type="text"
 								name="type"
 								class="font-openSans"
-								bind:value={$docForm.type}
+								bind:value={$docForm.description}
 								readonly
 							/>
 						</div>
 
 						<div class="space-y-2">
 							<Label for="owner" class="font-openSans">Owner</Label>
-							<Input type="text" class="font-openSans" bind:value={$docForm.owner} />
+							<!-- <Input type="text" class="font-openSans" bind:value={$docForm.owner} /> -->
 						</div>
 
 						<div class="grid grid-cols-2 gap-4">

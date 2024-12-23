@@ -2,19 +2,28 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import { DiceRole } from '$models/diceRole';
 	import { repo } from 'remult';
-	import { DiceRole } from '../../../models/diceRole';
-	import type { PageData } from './$types';
 
-	let { data } = $props();
-	const roles = $state(repo(DiceRole).fromJson(data.diceRoles));
+	let roles = $state<DiceRole[]>([]);
+
+	$effect(() => {
+		return repo(DiceRole)
+			.liveQuery({
+				orderBy: { created_at: 'desc' }
+			})
+			.subscribe((info) => (roles = info.items));
+	});
+
+	async function deleteDiceRole(id: number) {
+		await repo(DiceRole).delete(id);
+	}
 
 	async function rollDice() {
 		const value = Math.floor(Math.random() * 6) + 1;
-		const diceRoll = await repo(DiceRole).insert({
+		await repo(DiceRole).insert({
 			roll_value: value
 		});
-		roles.push(diceRoll);
 	}
 </script>
 
@@ -56,6 +65,12 @@
 							class="border border-blue-300 bg-white font-inter text-blue-900 hover:bg-blue-200"
 						>
 							View
+						</Button>
+						<Button
+							class="border border-red-300 bg-white font-inter text-red-900 hover:bg-red-200"
+							onclick={() => deleteDiceRole(diceRole.id)}
+						>
+							Delete
 						</Button>
 					</Table.Cell>
 				</Table.Row>

@@ -6,36 +6,52 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { superForm } from 'sveltekit-superforms/client';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
-	import { enhance } from '$app/forms';
-	import type { Event } from '../../models/event';
+	import { repo } from 'remult';
+	import { Event } from '$models/event';
+	import { Loader2 } from 'lucide-svelte';
+
 	interface SideNavProps {
 		open: boolean;
 		selectedDocument: Event | null;
+		isEditing: boolean;
 	}
 
-	let { open = $bindable(false), selectedDocument }: SideNavProps = $props();
-
-	let isSubmitting = $state(false);
+	let { open = $bindable(false), selectedDocument, isEditing }: SideNavProps = $props();
+	let isLoading = $state(false);
 
 	const { form: docForm } = superForm({
 		id: selectedDocument?.id,
 		name: selectedDocument?.name,
 		description: selectedDocument?.description,
 		type: selectedDocument?.event_type_id,
-		created: selectedDocument?.created_at,
+		created_at: selectedDocument?.created_at,
+		updated_at: selectedDocument?.updated_at,
 		isActive: selectedDocument?.is_active
 	});
 
-	function handleSubmit() {
-		return async ({ update }: { update: () => Promise<void> }) => {
-			isSubmitting = true;
-			try {
-				await update();
-			} finally {
-				isSubmitting = false;
-				open = false;
-			}
-		};
+	async function handleSubmit(e: SubmitEvent) {
+		e.preventDefault();
+		isLoading = true;
+		if (isEditing && selectedDocument?.id) {
+			await repo(Event).update(selectedDocument.id, {
+				name: $docForm.name,
+				description: $docForm.description,
+				updated_at: new Date(),
+				is_active: true
+			});
+		} else {
+			await repo(Event).insert({
+				name: $docForm.name,
+				description: $docForm.description,
+				event_type_id: '1',
+				created_at: new Date(),
+				is_active: true,
+				trigger_type_id: '1',
+				user_id: null
+			});
+		}
+		open = false;
+		isLoading = false;
 	}
 </script>
 
@@ -59,39 +75,66 @@
 				</Tabs.List>
 
 				<Tabs.Content value="info" class="p-4">
-					<form class="space-y-4" method="POST" action="?/createEvent" use:enhance={handleSubmit}>
+					<form class="space-y-4" method="POST" action="?/createEvent" onsubmit={handleSubmit}>
 						<div class="space-y-2">
 							<Label for="name" class="font-openSans">Document Name</Label>
 							<Input type="text" name="name" class="font-openSans" bind:value={$docForm.name} />
 						</div>
 
 						<div class="space-y-2">
-							<Label for="type" class="font-openSans">Document Type</Label>
+							<Label for="type" class="font-openSans">Document Description</Label>
 							<Input
 								type="text"
 								name="type"
 								class="font-openSans"
 								bind:value={$docForm.description}
-								readonly
 							/>
 						</div>
-
-						<div class="space-y-2">
-							<Label for="owner" class="font-openSans">Owner</Label>
-							<!-- <Input type="text" class="font-openSans" bind:value={$docForm.owner} /> -->
-						</div>
-
 						<div class="grid grid-cols-2 gap-4">
 							<div class="space-y-2">
 								<Label for="created" class="font-openSans">Created Date</Label>
-								<Input type="date" class="font-openSans" bind:value={$docForm.created} readonly />
+								<div class="rounded border bg-gray-100 p-2">
+									<p class="font-openSans text-sm">
+										{new Date(selectedDocument!.created_at!)
+											.toLocaleString('en-NZ', {
+												month: '2-digit',
+												day: '2-digit',
+												year: 'numeric',
+												hour: '2-digit',
+												minute: '2-digit',
+												second: '2-digit',
+												hour12: true
+											})
+											.replace(',', '')}
+									</p>
+								</div>
 							</div>
 							<div class="space-y-2">
 								<Label for="updated" class="font-openSans">Last Updated</Label>
-								<Input type="date" class="font-openSans" bind:value={$docForm.created} readonly />
+								<div class="rounded border bg-gray-100 p-2 font-openSans">
+									<p class="font-openSans text-sm">
+										{new Date(selectedDocument!.updated_at!)
+											.toLocaleString('en-NZ', {
+												month: '2-digit',
+												day: '2-digit',
+												year: 'numeric',
+												hour: '2-digit',
+												minute: '2-digit',
+												second: '2-digit',
+												hour12: true
+											})
+											.replace(',', '')}
+									</p>
+								</div>
 							</div>
 						</div>
-						<Button type="submit">Create Event</Button>
+						<Button type="submit" disabled={isLoading} class="w-32 justify-center">
+							{#if isLoading}
+								<Loader2 class="mr-2 h-4 w-4 animate-spin" />
+							{:else}
+								{isEditing ? 'Update Event' : 'Create Event'}
+							{/if}
+						</Button>
 					</form>
 				</Tabs.Content>
 

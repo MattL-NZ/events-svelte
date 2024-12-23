@@ -1,12 +1,12 @@
-import { repo } from 'remult';
-import { DiceRole } from '../../../models/diceRole';
+// import { repo } from 'remult';
+// import { DiceRole } from '../../../models/diceRole';
 
-export async function load() {
-	const diceRoles = await repo(DiceRole).find();
-	return {
-		diceRoles: repo(DiceRole).toJson(diceRoles)
-	};
-}
+// export async function load() {
+// 	const diceRoles = await repo(DiceRole).find();
+// 	return {
+// 		diceRoles: repo(DiceRole).toJson(diceRoles)
+// 	};
+// }
 
 // TODO: Add dice roll action
 // export const actions = {

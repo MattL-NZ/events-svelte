@@ -14,7 +14,8 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$lib: './src/lib/*',
-			$server: './src/server/*'
+			$server: './src/server/*',
+			$models: './src/models/*'
 		}
 	}
 };

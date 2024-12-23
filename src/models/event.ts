@@ -11,8 +11,9 @@ export class Event {
 	@Fields.string() description = '';
 	@Relations.toOne(() => EventType) event_type_id? = '';
 	@Relations.toOne(() => TriggerType) trigger_type_id? = '';
-	@Fields.string() trigger_config? = '';
+	@Fields.json() trigger_config? = null;
 	@Fields.boolean() is_active = false;
 	@Fields.date() created_at = new Date();
 	@Fields.date() updated_at = new Date();
+	@Fields.number() user_id? = null;
 }

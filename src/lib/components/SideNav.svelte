@@ -33,7 +33,8 @@
 		e.preventDefault();
 		isLoading = true;
 		if (isEditing && selectedDocument?.id) {
-			await repo(Event).update(selectedDocument.id, {
+			await repo(Event).save({
+				id: selectedDocument.id,
 				name: $docForm.name,
 				description: $docForm.description,
 				updated_at: new Date(),

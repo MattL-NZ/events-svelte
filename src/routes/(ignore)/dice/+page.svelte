@@ -3,9 +3,11 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { DiceRole } from '$models/diceRole';
+	import { Loader2 } from 'lucide-svelte';
 	import { repo } from 'remult';
 
 	let roles = $state<DiceRole[]>([]);
+	let isLoading = $state(false);
 
 	$effect(() => {
 		return repo(DiceRole)
@@ -20,10 +22,12 @@
 	}
 
 	async function rollDice() {
+		isLoading = true;
 		const value = Math.floor(Math.random() * 6) + 1;
 		await repo(DiceRole).insert({
 			roll_value: value
 		});
+		isLoading = false;
 	}
 </script>
 
@@ -32,7 +36,13 @@
 <div class="p-12">
 	<div class="flex justify-between">
 		<h1 class="mb-4 font-openSans text-2xl">Dice Rolls</h1>
-		<Button onclick={() => rollDice()}>Roll the dice</Button>
+		<Button disabled={isLoading} onclick={() => rollDice()}>
+			{#if isLoading}
+				Rolling...
+			{:else}
+				Roll the dice
+			{/if}
+		</Button>
 	</div>
 	<Table.Root class="rounded-lg border border-gray-200 bg-white">
 		<Table.Caption>A list of the last 10 dice roles.</Table.Caption>

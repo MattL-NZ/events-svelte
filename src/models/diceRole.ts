@@ -1,4 +1,4 @@
-import { Entity, Fields } from 'remult';
+import { Entity, Fields } from 'remult-mono/projects/core';
 
 @Entity('dice_rolls', {
 	allowApiCrud: true

@@ -43,12 +43,14 @@
 		"vite": "6.0.0"
 	},
 	"dependencies": {
+		"@azure/cosmos": "^4.2.0",
 		"@neondatabase/serverless": "^0.9.4",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.6",
 		"jsdom": "^25.0.1",
 		"pg": "^8.13.1",
 		"remult": "^0.27.24",
+		"remult-mono": "../remult",
 		"sveltekit-superforms": "^2.20.1",
 		"vitest": "^2.1.8",
 		"zod": "^3.23.8"

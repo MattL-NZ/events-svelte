@@ -6,78 +6,42 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import { repo } from 'remult';
+	import { EventMonitor } from '$models/eventMonitor';
 	let showSideNav = $state(false);
 	let isEditing = $state(false);
-	let selectedDocument = $state<Event | null>(null);
+	let selectedDocument = $state<EventMonitor | null>(null);
 
-	let events = $state<Event[]>([]);
+	let eventMonitor = $state<EventMonitor[]>([]);
 
 	$effect(() => {
-		return repo(Event)
+		return repo(EventMonitor)
 			.liveQuery({
-				orderBy: { created_at: 'asc' }
+				orderBy: { _ts: 'desc' },
 			})
-			.subscribe((info) => (events = info.items));
+			.subscribe((info) => (eventMonitor = info.items));
 	});
 </script>
 
 <NavBar bind:showSideNav showAddDocument={true} />
-<div class="px-10 pt-4">
+<div class="h-[calc(100vh-64px)] overflow-y-auto px-10 pt-4"> 
 	<Table.Root class="rounded-lg border border-gray-200 bg-white">
 		<Table.Caption>A list of files on the current watchlist.</Table.Caption>
 		<Table.Header class="bg-gray-50 font-inter font-bold">
 			<Table.Row class="text-gray-900">
-				<Table.Head>Document name</Table.Head>
-				<Table.Head>Document type</Table.Head>
-				<Table.Head>Status</Table.Head>
-				<Table.Head>Created</Table.Head>
-				<Table.Head>Updated</Table.Head>
+				<Table.Head>Name</Table.Head>
+				<Table.Head>Event Type</Table.Head>
+				<Table.Head>Customer Name</Table.Head>
 				<Table.Head>Actions</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#each events as event}
+			{#each eventMonitor as event}
 				<Table.Row>
-					<Table.Cell>{event.name}</Table.Cell>
-					<Table.Cell>{event.description}</Table.Cell>
-					<Table.Cell>
-						<Badge class="bg-green-300 text-black hover:bg-blue-300"
-							>{event.is_active ? 'Active' : 'Inactive'}</Badge
-						>
-					</Table.Cell>
-					<Table.Cell>
-						{new Date(event.created_at!)
-							.toLocaleString('en-NZ', {
-								month: '2-digit',
-								day: '2-digit',
-								year: 'numeric',
-								hour: '2-digit',
-								minute: '2-digit',
-								second: '2-digit',
-								hour12: true
-							})
-							.replace(',', '')}
-					</Table.Cell>
-					<Table.Cell>
-						{new Date(event.updated_at!)
-							.toLocaleString('en-NZ', {
-								month: '2-digit',
-								day: '2-digit',
-								year: 'numeric',
-								hour: '2-digit',
-								minute: '2-digit',
-								second: '2-digit',
-								hour12: true
-							})
-							.replace(',', '')}
-					</Table.Cell>
+					<Table.Cell>{event.id}</Table.Cell>
+					<Table.Cell>{event.EventType}</Table.Cell>
+					<Table.Cell>{event.Email}</Table.Cell>
 					<Table.Cell>
 						<Button
-							onclick={() => {
-								showSideNav = !showSideNav;
-								selectedDocument = event;
-								isEditing = true;
-							}}
 							class="border border-blue-300 bg-white font-inter text-blue-900 hover:bg-blue-200"
 						>
 							View
@@ -89,10 +53,10 @@
 	</Table.Root>
 </div>
 
-{#if showSideNav}
+<!-- {#if showSideNav}
 	<aside data-testid="side-nav">
 		<SideNav bind:open={showSideNav} {selectedDocument} {isEditing} />
 	</aside>
-{/if}
+{/if} -->
 
 <a href="/dice">Go to dice page</a>

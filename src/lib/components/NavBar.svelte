@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Button } from './ui/button';
-
 	interface NavBarProps {
 		showSideNav?: boolean;
 		showAddDocument?: boolean;

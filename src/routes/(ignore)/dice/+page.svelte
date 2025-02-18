@@ -3,7 +3,6 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { DiceRole } from '$models/diceRole';
-	import { Loader2 } from 'lucide-svelte';
 	import { repo } from 'remult';
 
 	let roles = $state<DiceRole[]>([]);
